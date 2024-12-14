@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Arte do Café e do Código Limpo | Front & Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coffee-dark: #1a0f0a;
+            --coffee-medium: #2C1810;
+            --coffee-light: #4A3C39;
+            --cream: #F5E6D3;
+            --accent: #D4A574;
+            --gradient-dark: linear-gradient(145deg, var(--coffee-medium), var(--coffee-dark));
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.2);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--coffee-dark);
+            color: var(--cream);
+            line-height: 1.6;
+        }
+
+        /* Fancy Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--coffee-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 6px;
+            border: 3px solid var(--coffee-dark);
+        }
+
+        /* Enhanced Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(26, 15, 10, 0.8);
+            border-bottom: 1px solid rgba(212, 165, 116, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: var(--transition-smooth);
+            transform-origin: right;
+        }
+
+        .logo:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Enhanced Reading Progress */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(245,230,211,0.1);
+            z-index: 1001;
+        }
+
+        .reading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #f0c497);
+            width: 0%;
+            transition: width 0.1s ease;
+            position: relative;
+        }
+
+        .reading-progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 20px;
+            background: inherit;
+            filter: blur(10px);
+        }
+
+        /* Enhanced Blog Layout */
+        .blog-post-page {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+            background: radial-gradient(
+                circle at 50% 50%,
+                var(--coffee-medium) 0%,
+                var(--coffee-dark) 100%
+            );
+        }
+
+        .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      transition: all 0.3s;
+      position: relative;
+      padding: 5px 0;
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .blog-post-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--gradient-dark);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    border: 1px solid rgba(245,230,211,0.1);
+}
+
+        /* Coffee Bean Background Pattern */
+        .blog-post-container::before {
+            content: '☕';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            opacity: 0.1;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        .blog-layout {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 4rem;
+    position: relative;
+    align-items: start; /* Mantém alinhamento superior */
+    min-height: 100vh; /* Garante altura mínima */
+}
+
+.table-of-contents {
+    position: sticky;
+    top: 100px; /* Ajusta altura em relação ao topo */
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: 2rem;
+    background: rgba(26,15,10,0.6);
+    border-radius: 15px;
+    border: 1px solid rgba(245,230,211,0.1);
+    backdrop-filter: blur(10px);
+    transition: var(--transition-smooth);
+    align-self: start;
+    /* Remove outros posicionamentos que possam interferir */
+    float: none;
+    margin: 0;
+    z-index: 2;
+}
+
+/* Remove a transformação no hover que pode afetar o sticky */
+.table-of-contents:hover {
+    transform: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+        .table-of-contents h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .table-of-contents h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .table-of-contents nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .table-of-contents a {
+            display: block;
+            color: var(--cream);
+            text-decoration: none;
+            padding: 0.8rem 1rem;
+            transition: var(--transition-smooth);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .table-of-contents a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: var(--transition-smooth);
+        }
+
+        .table-of-contents a:hover,
+        .table-of-contents a.active {
+            background: rgba(245,230,211,0.05);
+            padding-left: 1.5rem;
+        }
+
+        .table-of-contents a:hover::before,
+        .table-of-contents a.active::before {
+            transform: scaleY(1);
+        }
+
+        /* Enhanced Blog Content */
+        .blog-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 100%; /* Garante que não ultrapasse o container */
+    overflow-wrap: break-word; /* Quebra palavras longas */
+    word-wrap: break-word;
+    hyphens: auto;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+        .blog-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(212,165,116,0.1);
+            border-radius: 20px;
+            transition: var(--transition-smooth);
+        }
+
+        .blog-meta span:hover {
+            background: rgba(212,165,116,0.2);
+            transform: translateY(-2px);
+        }
+
+        .blog-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            background: linear-gradient(45deg, var(--cream), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGradient 8s ease infinite;
+        }
+
+        @keyframes titleGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .blog-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin: 4rem 0 2rem;
+            color: var(--accent);
+            position: relative;
+        }
+
+        .blog-content h2::before {
+            content: '☕';
+            position: absolute;
+            left: -40px;
+            opacity: 0.5;
+            font-size: 1.2rem;
+            transform: translateY(8px);
+        }
+
+        .blog-content p {
+    margin-bottom: 1.8rem;
+    color: rgba(245,230,211,0.9);
+    transition: var(--transition-smooth);
+    padding: 1rem;
+    border-radius: 8px;
+    position: relative;
+    max-width: 100%; /* Limita a largura do parágrafo */
+}
+
+        .blog-content p:hover {
+            background: rgba(245,230,211,0.05);
+            transform: translateX(10px);
+        }
+
+        /* Enhanced Code Examples */
+        .code-example {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 2rem 0; /* Removido margem negativa */
+    padding: 2rem;
+    background: var(--coffee-dark);
+    border: 1px solid rgba(245,230,211,0.1);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    width: 100%; /* Garante que ocupe 100% da largura disponível */
+    white-space: pre-wrap; /* Permite quebra de linha */
+    word-wrap: break-word; /* Quebra palavras longas */
+    overflow-x: auto; /* Adiciona scroll horizontal se necessário */
+}
+
+        .code-example::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 0%, rgba(212,165,116,0.1) 100%);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .code-example:hover::before {
+            opacity: 1;
+        }
+
+        .code-example pre {
+            overflow-x: auto;
+            padding: 1rem;
+            overflow-x: auto;
+    white-space: pre-wrap; /* Permite quebra de linha */
+    word-break: break-word; /* Quebra palavras longas se necessário */
+        }
+
+        .code-example code {
+            display: block;
+        }
+
+        .code-example .keyword { color: #ff79c6; }
+        .code-example .function { color: #50fa7b; }
+        .code-example .string { color: #f1fa8c; }
+        .code-example .comment { color: #6272a4; }
+
+        .copy-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(245,230,211,0.1);
+            border: none;
+            padding: 0.7rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--cream);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-button:hover {
+            background: rgba(245,230,211,0.2);
+            transform: translateY(-2px);
+        }
+
+        .copy-button::before {
+            content: 'Copiar';
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 4rem;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: var(--coffee-dark);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-link::before {
+            content: '←';
+            transition: transform 0.3s ease;
+        }
+
+        .back-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, rgba(255,255,255,0.2));
+            transform: translateY(100%);
+            transition: var(--transition-smooth);
+        }
+
+        .back-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .back-link:hover::before {
+            transform: translateX(-5px);
+        }
+
+        .back-link:hover::after {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .blog-layout {
+                grid-template-columns: 250px 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .blog-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .table-of-contents {
+                position: relative;
+                top: 0;
+                margin-bottom: 2rem;
+            }
+
+            .blog-content h2::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-post-container {
+                padding: 2rem;
+            }
+
+            .blog-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .blog-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .code-example {
+                margin: 2rem -1rem;
+                font-size: 0.85rem;
+            }
+
+            .blog-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .blog-post-container {
+                padding: 1.5rem;
+            }
+
+            .blog-content h1 {
+                font-size: 2rem;
+            }
+
+            .copy-button::before {
+                display: none;
+            }
+            .table-of-contents {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reading-progress">
+        <div class="reading-progress-bar"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="logo">Front & Coffee</a>
+            <div class="nav-links">
+                <a href="#about">Sobre</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <article class="blog-post-page">
+        <div class="blog-post-container">
+            <div class="blog-layout">
+                <aside class="table-of-contents">
+                    <h3>Conteúdo</h3>
+                    <nav><a href="#section-1">Introdução</a>
+<a href="#section-2">1. A Arte da Preparação: Research e Discovery</a>
+<a href="#section-3">2. A Moagem Perfeita: Information Architecture</a>
+<a href="#section-4">3. A Temperatura Ideal: Visual Design</a>
+<a href="#section-5">4. O Tempo de Extração: Interação e Feedback</a>
+<a href="#section-6">5. A Arte do Servir: Microinteractions</a>
+<a href="#section-7">6. Degustação e Iteração: Testes com Usuários</a>
+<a href="#section-8">7. O Aroma da Consistência: Design System</a>
+<a href="#section-9">Conclusão</a>
+</nav>
+                </aside>
+
+                <div class="blog-content"><h2 id="section-1">Introdução</h2>
+<p>Assim como na preparação do café perfeito, o design de experiência do usuário é uma arte que requer precisão, sensibilidade e profundo entendimento de seus elementos fundamentais. Cada detalhe, desde a temperatura da água até o tempo de extração, influencia o resultado final - da mesma forma, cada elemento de UX impacta diretamente a experiência do usuário.</p>
+<h2 id="section-2">1. A Arte da Preparação: Research e Discovery</h2>
+<p>Como um barista que seleciona cuidadosamente seus grãos, o designer de UX deve começar com uma pesquisa meticulosa. Esta fase fundamental estabelece as bases para todo o processo de design.</p>
+
+                <div class="code-example">
+                    <button class="copy-button"></button>
+                    <pre><code><span class="comment">// Estrutura básica de research</span>
+<span class=<span class="string">"keyword"</span>>const</span> uxResearch = {
+  userInterviews: {
+    participants: 12,
+    method: <span class="string">'semi-structured'</span>,
+    duration: <span class="string">'45min'</span>
+  },
+  analytics: {
+    heatmaps: true,
+    userFlows: true,
+    bounceRates: <span class="string">'35%'</span>
+  },
+  competitiveAnalysis: [
+    <span class="string">'direct-competitors'</span>,
+    <span class="string">'indirect-competitors'</span>,
+    <span class="string">'market-trends'</span>
+  ]
+};</code></pre>
+                </div>
+                <h2 id="section-3">2. A Moagem Perfeita: Information Architecture</h2>
+<p>A moagem dos grãos define como o sabor será extraído - muito fina ou muito grossa, e toda a experiência é comprometida. Da mesma forma, a arquitetura da informação é a base que determina como o usuário irá "extrair" valor do seu produto.</p>
+
+                <div class="code-example">
+                    <button class="copy-button"></button>
+                    <pre><code><span class="comment">// Exemplo de estrutura de navegação</span>
+<span class=<span class="string">"keyword"</span>>const</span> siteArchitecture = {
+  mainNavigation: {
+    home: <span class="string">'/'</span>,
+    products: {
+      path: <span class="string">'/products'</span>,
+      subCategories: [<span class="string">'coffee'</span>, <span class="string">'equipment'</span>, <span class="string">'accessories'</span>]
+    },
+    blog: {
+      path: <span class="string">'/blog'</span>,
+      categories: [<span class="string">'brewing'</span>, <span class="string">'beans'</span>, <span class="string">'techniques'</span>]
+    },
+    about: <span class="string">'/about'</span>,
+    contact: <span class="string">'/contact'</span>
+  },
+  userFlows: {
+    purchase: [<span class="string">'product-selection'</span>, <span class="string">'cart'</span>, <span class="string">'checkout'</span>, <span class="string">'confirmation'</span>],
+    subscription: [<span class="string">'plan-selection'</span>, <span class="string">'customization'</span>, <span class="string">'payment'</span>, <span class="string">'confirmation'</span>]
+  }
+};</code></pre>
+                </div>
+                <h2 id="section-4">3. A Temperatura Ideal: Visual Design</h2>
+<p>Como a temperatura da água pode fazer ou quebrar um café, o design visual pode elevar ou arruinar a experiência do usuário. É necessário encontrar o equilíbrio perfeito entre estética e funcionalidade.</p>
+
+                <div class="code-example">
+                    <button class="copy-button"></button>
+                    <pre><code><span class="comment">/* Sistema de Design Básico */</span>
+:root {
+  <span class="comment">/* Cores primárias e estados */</span>
+  --primary: #2C1810;
+  --secondary: #D4A574;
+  --accent: #F5E6D3;
+  
+  <span class="comment">/* Tipografia */</span>
+  --heading: <span class="string">'Playfair Display'</span>, serif;
+  --body: <span class="string">'Montserrat'</span>, sans-serif;
+  
+  <span class="comment">/* Espaçamento */</span>
+  --spacing-unit: 8px;
+  --container-padding: <span class=<span class="string">"function"</span>>calc</span>(<span class=<span class="string">"keyword"</span>>var</span>(--spacing-unit) * 3);
+  
+  <span class="comment">/* Interações */</span>
+  --transition-smooth: all 0.3s ease;
+  --hover-lift: <span class=<span class="string">"function"</span>>translateY</span>(-2px);
+}</code></pre>
+                </div>
+                <h2 id="section-5">4. O Tempo de Extração: Interação e Feedback</h2>
+<p>O tempo de extração do café é crucial - muito rápido ou muito lento, e o resultado é comprometido. Na experiência do usuário, o timing das interações e feedback é igualmente vital.</p>
+
+                <div class="code-example">
+                    <button class="copy-button"></button>
+                    <pre><code><span class="comment">// Sistema de Feedback</span>
+<span class=<span class="string">"keyword"</span>>const</span> userFeedback = {
+  success: {
+    message: <span class="string">'Operação realizada com sucesso'</span>,
+    icon: <span class="string">'✓'</span>,
+    duration: 3000,
+    animation: <span class="string">'slide-up'</span>
+  },
+  error: {
+    message: <span class="string">'Ops! Algo deu errado'</span>,
+    icon: <span class="string">'!'</span>,
+    duration: 5000,
+    animation: <span class="string">'shake'</span>
+  },
+  loading: {
+    message: <span class="string">'Processando sua solicitação...'</span>,
+    spinner: true,
+    overlay: true
+  }
+};</code></pre>
+                </div>
+                <h2 id="section-6">5. A Arte do Servir: Microinteractions</h2>
+<p>Como a apresentação final de um café pode encantar antes mesmo do primeiro gole, as microinterações são os pequenos momentos que encantam os usuários e trazem personalidade à interface.</p>
+
+                <div class="code-example">
+                    <button class="copy-button"></button>
+                    <pre><code><span class="comment">// Exemplo de microinteração</span>
+<span class=<span class="string">"keyword"</span>>const</span> buttonStates = {
+  hover: {
+    scale: 1.05,
+    duration: 0.2,
+    ease: <span class="string">'ease-out'</span>
+  },
+  click: {
+    scale: 0.95,
+    duration: 0.1,
+    ease: <span class="string">'ease-in'</span>
+  },
+  loading: {
+    rotation: <span class="string">'360deg'</span>,
+    duration: 1,
+    repeat: <span class="string">'infinite'</span>
+  }
+};</code></pre>
+                </div>
+                <h2 id="section-7">6. Degustação e Iteração: Testes com Usuários</h2>
+<p>Como um barista que ajusta constantemente sua técnica baseado no feedback dos clientes, o processo de UX design é iterativo e baseado em testes contínuos com usuários.</p>
+
+                <div class="code-example">
+                    <button class="copy-button"></button>
+                    <pre><code><span class="comment">// Estrutura de teste A/B</span>
+<span class=<span class="string">"keyword"</span>>const</span> abTest = {
+  variant_a: {
+    buttonColor: <span class="string">'#D4A574'</span>,
+    buttonText: <span class="string">'Comprar Agora'</span>,
+    conversion: <span class="string">'2.8%'</span>
+  },
+  variant_b: {
+    buttonColor: <span class="string">'#2C1810'</span>,
+    buttonText: <span class="string">'Adicionar ao Carrinho'</span>,
+    conversion: <span class="string">'3.2%'</span>
+  },
+  results: {
+    sampleSize: 1000,
+    duration: <span class="string">'14 days'</span>,
+    winner: <span class="string">'variant_b'</span>,
+    confidenceLevel: <span class="string">'95%'</span>
+  }
+};</code></pre>
+                </div>
+                <h2 id="section-8">7. O Aroma da Consistência: Design System</h2>
+<p>Como uma boa cafeteria mantém a consistência de suas bebidas através de processos bem definidos, um design system garante consistência através de toda a experiência do usuário.</p>
+
+                <div class="code-example">
+                    <button class="copy-button"></button>
+                    <pre><code><span class="comment">// Componentes do Design System</span>
+<span class=<span class="string">"keyword"</span>>const</span> designSystem = {
+  components: {
+    buttons: {
+      primary: {
+        background: <span class="string">'<span class="keyword">var</span>(--primary)'</span>,
+        color: <span class="string">'<span class="keyword">var</span>(--accent)'</span>,
+        padding: <span class="string">'16px 24px'</span>,
+        borderRadius: <span class="string">'8px'</span>
+      },
+      secondary: {
+        background: <span class="string">'transparent'</span>,
+        border: <span class="string">'2px solid <span class="keyword">var</span>(--primary)'</span>,
+        color: <span class="string">'<span class="keyword">var</span>(--primary)'</span>,
+        padding: <span class="string">'14px 22px'</span>
+      }
+    },
+    cards: {
+      default: {
+        padding: <span class="string">'24px'</span>,
+        borderRadius: <span class="string">'12px'</span>,
+        shadow: <span class="string">'0 4px 12px <span class="function">rgba</span>(0,0,0,0.1)'</span>
+      }
+    }
+  }
+};</code></pre>
+                </div>
+                <h2 id="section-9">Conclusão</h2>
+<p>Assim como um café excepcional é o resultado de atenção aos detalhes e dedicação à excelência, uma experiência do usuário memorável é fruto de um processo cuidadoso e centrado no usuário. Cada elemento deve ser considerado não apenas individualmente, mas como parte de uma experiência holística que encanta e satisfaz.</p>
+</div></div></div>
+    </article>
+
+    <script>
+        // Reading Progress Bar
+        const progressBar = document.querySelector('.reading-progress-bar');
+        const content = document.querySelector('.blog-content');
+        const contentBox = content.getBoundingClientRect();
+
+        function updateReadingProgress() {
+            const scrollPosition = window.scrollY;
+            const maxScroll = content.offsetHeight - window.innerHeight;
+            const progress = (scrollPosition / maxScroll) * 100;
+            progressBar.style.width = `${Math.min(progress, 100)}%`;
+        }
+
+        window.addEventListener('scroll', updateReadingProgress);
+        window.addEventListener('resize', updateReadingProgress);
+
+        // Table of Contents Highlighting
+        const tocLinks = document.querySelectorAll('.table-of-contents a');
+        const sections = document.querySelectorAll('[id]');
+
+        const observerOptions = {
+            rootMargin: '-100px 0px -50%',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    tocLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Smooth Scroll for ToC Links
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const navHeight = document.querySelector('.nav').offsetHeight;
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - navHeight - 20,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Code Copy Functionality
+        document.querySelectorAll('.copy-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const code = button.nextElementSibling.textContent;
+                navigator.clipboard.writeText(code);
+                
+                button.innerHTML = '✓';
+                button.style.background = 'var(--accent)';
+                button.style.color = 'var(--coffee-dark)';
+                
+                setTimeout(() => {
+                    button.innerHTML = '';
+                    button.style.background = 'rgba(245,230,211,0.1)';
+                    button.style.color = 'var(--cream)';
+                }, 2000);
+            });
+        });
+
+        // Add scroll reveal animation to paragraphs
+        const revealElements = document.querySelectorAll('.blog-content p');
+        const revealOptions = {
+            threshold: 0.1
+        };
+
+        const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        revealElements.forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateX(-20px)';
+            element.style.transition = 'all 0.5s ease';
+            revealObserver.observe(element);
+        });
+    </script>
+</body>
+</html>

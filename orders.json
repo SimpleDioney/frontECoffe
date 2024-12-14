@@ -1,0 +1,25 @@
+{
+    "554399241054": {
+        "status": "waiting_confirmation",
+        "timestamp": "2024-12-14T00:46:59.078206",
+        "updates": [
+            {
+                "status": "waiting_address",
+                "timestamp": "2024-12-14T00:46:59.078206"
+            },
+            {
+                "status": "waiting_confirmation",
+                "timestamp": "2024-12-14T00:47:16.808538"
+            }
+        ],
+        "address": "rua caf\u00e9 sumatra, 456",
+        "delivery_info": {
+            "fee": 8.0,
+            "time": 30,
+            "coordinates": null,
+            "rush_hour": false,
+            "raining": false,
+            "source": "fallback"
+        }
+    }
+}

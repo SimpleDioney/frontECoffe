@@ -1,0 +1,972 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front & Coffee | Portfolio</title>
+    
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@700&display=swap');
+    
+    :root {
+      --coffee-dark: #2C1810;
+      --coffee-medium: #4A3C39;
+      --coffee-light: #8B7355;
+      --cream: #F5E6D3;
+      --accent: #D4A574;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--coffee-dark);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+    
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(44,24,16,0.9), rgba(74,60,57,0.8));
+      z-index: 1;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s forwards 0.5s;
+    }
+    
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .typewriter {
+      font-size: 1.2rem;
+      min-height: 1.5em;
+      border-right: 2px solid var(--accent);
+      padding-right: 5px;
+      animation: blink 0.7s infinite;
+      display: inline-block;
+      width: auto;
+      margin: 0 auto;
+      text-align: left;
+
+    }
+    
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+    
+    .explore-btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--accent);
+      color: var(--coffee-dark);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      transform: translateY(30px);
+      opacity: 0;
+      animation: fadeUp 1s forwards 1.5s;
+    }
+    
+    .explore-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(transparent, rgba(212,165,116,0.3));
+      transform: translateY(100%);
+      transition: transform 0.3s;
+    }
+    
+    .explore-btn:hover::before {
+      transform: translateY(0);
+    }
+    
+    .explore-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem;
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+    
+    .nav.scrolled {
+      background: var(--coffee-dark);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      padding: 1rem;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+    }
+    
+    .logo:hover::after {
+      transform: translateX(0);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      transition: all 0.3s;
+      position: relative;
+      padding: 5px 0;
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+    
+    .about {
+      min-height: 100vh;
+      padding: 6rem 2rem;
+      background: var(--coffee-medium);
+      position: relative;
+    }
+    
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s;
+    }
+    
+    .about-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .about-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    
+    .about-text h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+    }
+    
+    .about-text p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    
+    .coffee-skills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    
+    .skill-cup {
+      position: relative;
+      text-align: center;
+      transition: all 0.4s ease-out;
+      padding: 2rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .skill-cup svg {
+      width: 120px;
+      height: 120px;
+      fill: none;
+      stroke: var(--cream);
+      stroke-width: 2;
+      margin-bottom: 1.5rem;
+      transition: all 0.5s ease;
+      transform-origin: center center;
+      filter: drop-shadow(0 0 10px rgba(245,230,211,0.1));
+    }
+    
+    .skill-cup .steam {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      pointer-events: none;
+    }
+    
+    @keyframes rise {
+      0% {
+        bottom: 20%;
+        opacity: 0;
+        transform: scale(0.2) translateX(0);
+      }
+      40% {
+        opacity: 0.5;
+        transform: scale(1) translateX(-10px);
+      }
+      60% {
+        opacity: 0.5;
+        transform: scale(1) translateX(10px);
+      }
+      100% {
+        bottom: 120%;
+        opacity: 0;
+        transform: scale(0.2) translateX(0);
+      }
+    }
+    
+    .skill-cup:hover {
+      transform: translateY(-10px);
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .skill-cup:hover svg {
+      stroke: var(--accent);
+      transform: scale(1.1);
+      filter: drop-shadow(0 5px 15px rgba(212,165,116,0.4));
+    }
+    
+    .skill-cup h3 {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .skill-cup:hover h3 {
+      transform: scale(1.1);
+      color: var(--cream);
+    }
+    
+    .skill-cup svg .steam-path {
+      opacity: 0;
+      animation: steamPath 3s infinite ease-out;
+      stroke-width: 1;
+    }
+    
+    .skill-cup svg .steam-path:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+    
+    .skill-cup svg .steam-path:nth-child(4) {
+      animation-delay: 0.6s;
+    }
+    
+    .skill-cup svg .steam-path:nth-child(5) {
+      animation-delay: 0.9s;
+    }
+    
+    @keyframes steamPath {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(1);
+      }
+      40% {
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(1.2);
+      }
+    }
+    
+    .skill-cup svg .liquid {
+      stroke: var(--accent);
+      opacity: 0.6;
+      animation: liquidWave 4s infinite ease-in-out;
+    }
+    
+    @keyframes liquidWave {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(2px);
+        d: path("M20,60 C40,65 60,55 80,60");
+      }
+    }
+    
+    .portfolio {
+      padding: 6rem 2rem;
+      background: var(--coffee-dark);
+    }
+    
+    .portfolio h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 4rem;
+      color: var(--cream);
+      position: relative;
+    }
+    
+    .portfolio h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+    }
+    
+    .portfolio-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+    
+    .portfolio-item {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      background: var(--coffee-medium);
+      transition: transform 0.3s ease;
+    }
+    
+    .portfolio-item:hover {
+      transform: translateY(-10px);
+    }
+    
+    .portfolio-content {
+      padding: 2rem;
+    }
+    
+    .portfolio-item h3 {
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+    
+    .portfolio-item p {
+      color: var(--cream);
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+    
+    .portfolio-item .tech-stack {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    
+    .tech-tag {
+      background: var(--accent);
+      color: var(--coffee-dark);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .portfolio-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+    }
+    
+    .portfolio-link::after {
+      content: '→';
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+    
+    .portfolio-link:hover::after {
+      transform: translateX(5px);
+    }
+    
+    .blog {
+      padding: 6rem 2rem;
+      background: var(--coffee-medium);
+    }
+
+    .blog h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .blog h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .blog-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .blog-post {
+      background: var(--coffee-dark);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .blog-post.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .blog-post:hover {
+      transform: translateY(-10px);
+    }
+
+    .post-content {
+      padding: 2rem;
+    }
+
+    .post-date {
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .blog-post h3 {
+      margin: 1rem 0;
+      color: var(--cream);
+    }
+
+    .post-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 1rem;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .post-link::after {
+      content: '→';
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .post-link:hover::after {
+      transform: translateX(5px);
+    }
+
+    .contact {
+      padding: 6rem 2rem;
+      background: var(--coffee-dark);
+      position: relative;
+    }
+
+    .contact-container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .contact p {
+      margin-bottom: 3rem;
+      color: var(--cream);
+      opacity: 0.8;
+    }
+
+    .contact-content {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent);
+    }
+
+    .contact-item a {
+      color: var(--cream);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact-item a:hover {
+      color: var(--accent);
+    }
+
+    /* Enhance cup animation with liquid pouring effect */
+    .skill-cup .liquid {
+      animation: liquidPour 3s infinite ease-in-out;
+    }
+
+    @keyframes liquidPour {
+      0%, 100% {
+        d: path("M20,60 C40,55 60,65 80,60");
+      }
+      50% {
+        d: path("M20,65 C40,60 60,70 80,65");
+      }
+    }
+
+    /* Enhance steam animation */
+    .skill-cup svg .steam-path {
+      stroke-dasharray: 10;
+      stroke-dashoffset: 10;
+      animation: steamRise 3s infinite ease-out;
+    }
+
+    @keyframes steamRise {
+      0% {
+        stroke-dashoffset: 10;
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% {
+        stroke-dashoffset: -10;
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+    
+      .about-container {
+        grid-template-columns: 1fr;
+      }
+    
+      .coffee-skills {
+        grid-template-columns: 1fr 1fr;
+      }
+    
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    </style>
+    </head>
+    <body>
+    
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="/" class="logo">Front & Coffee</a>
+        <div class="nav-links">
+          <a href="#about">Sobre</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#blog">Blog</a>
+          <a href="#contact">Contato</a>
+        </div>
+      </div>
+    </nav>
+    
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Desenvolvendo com a paixão de um bom café</h1>
+        <div class="typewriter" id="typewriter"></div>
+        <a href="#portfolio" class="explore-btn">Explorar</a>
+      </div>
+    </section>
+    
+    <section id="about" class="about">
+      <div class="about-container">
+        <div class="about-text">
+          <h2>Sobre Mim</h2>
+          <p>"Assim como o café, o código perfeito é uma mistura de paixão e precisão."</p>
+          <p>Desenvolvedor front-end apaixonado por criar experiências digitais únicas, sempre com uma xícara de café ao lado. Especializado em transformar ideias em interfaces interativas e envolventes.</p>
+        </div>
+        <div class="coffee-skills">
+          <div class="skill-cup" style="opacity: 0; transform: translateY(20px); transition: all 0.6s ease;">
+            <div class="steam">
+              <div class="steam-particle" style="left: 20%; animation-delay: 0.3s;"></div>
+              <div class="steam-particle" style="left: 50%; animation-delay: 0.5s;"></div>
+              <div class="steam-particle" style="left: 80%; animation-delay: 0.7s;"></div>
+            </div>
+            <svg viewBox="0 0 100 100">
+              <!-- Cup body -->
+              <path d="M20,40 L80,40 C85,40 90,45 90,50 L85,80 C85,85 80,90 75,90 L25,90 C20,90 15,85 15,80 L10,50 C10,45 15,40 20,40" />
+              <!-- Handle -->
+              <path d="M90,55 C100,55 100,65 90,65" stroke-linecap="round" />
+              <!-- Steam lines -->
+              <path d="M40,20 C40,15 45,15 45,20 C45,25 40,25 40,20" class="steam-path"/>
+              <path d="M50,15 C50,10 55,10 55,15 C55,20 50,20 50,15" class="steam-path"/>
+              <path d="M60,20 C60,15 65,15 65,20 C65,25 60,25 60,20" class="steam-path"/>
+              <!-- Liquid -->
+              <path d="M20,60 C40,55 60,65 80,60" stroke-width="1" class="liquid"/>
+            </svg>
+            <h3>HTML</h3>
+          </div>
+          <div class="skill-cup" style="opacity: 0; transform: translateY(20px); transition: all 0.6s ease;">
+            <div class="steam">
+              <div class="steam-particle" style="left: 20%; animation-delay: 0.3s;"></div>
+              <div class="steam-particle" style="left: 50%; animation-delay: 0.5s;"></div>
+              <div class="steam-particle" style="left: 80%; animation-delay: 0.7s;"></div>
+            </div>
+            <svg viewBox="0 0 100 100">
+              <!-- Cup body -->
+              <path d="M20,40 L80,40 C85,40 90,45 90,50 L85,80 C85,85 80,90 75,90 L25,90 C20,90 15,85 15,80 L10,50 C10,45 15,40 20,40" />
+              <!-- Handle -->
+              <path d="M90,55 C100,55 100,65 90,65" stroke-linecap="round" />
+              <!-- Steam lines -->
+              <path d="M40,20 C40,15 45,15 45,20 C45,25 40,25 40,20" class="steam-path"/>
+              <path d="M50,15 C50,10 55,10 55,15 C55,20 50,20 50,15" class="steam-path"/>
+              <path d="M60,20 C60,15 65,15 65,20 C65,25 60,25 60,20" class="steam-path"/>
+              <!-- Liquid -->
+              <path d="M20,60 C40,55 60,65 80,60" stroke-width="1" class="liquid"/>
+            </svg>
+            <h3>CSS</h3>
+          </div>
+          <div class="skill-cup" style="opacity: 0; transform: translateY(20px); transition: all 0.6s ease;">
+            <div class="steam">
+              <div class="steam-particle" style="left: 20%; animation-delay: 0.3s;"></div>
+              <div class="steam-particle" style="left: 50%; animation-delay: 0.5s;"></div>
+              <div class="steam-particle" style="left: 80%; animation-delay: 0.7s;"></div>
+            </div>
+            <svg viewBox="0 0 100 100">
+              <!-- Cup body -->
+              <path d="M20,40 L80,40 C85,40 90,45 90,50 L85,80 C85,85 80,90 75,90 L25,90 C20,90 15,85 15,80 L10,50 C10,45 15,40 20,40" />
+              <!-- Handle -->
+              <path d="M90,55 C100,55 100,65 90,65" stroke-linecap="round" />
+              <!-- Steam lines -->
+              <path d="M40,20 C40,15 45,15 45,20 C45,25 40,25 40,20" class="steam-path"/>
+              <path d="M50,15 C50,10 55,10 55,15 C55,20 50,20 50,15" class="steam-path"/>
+              <path d="M60,20 C60,15 65,15 65,20 C65,25 60,25 60,20" class="steam-path"/>
+              <!-- Liquid -->
+              <path d="M20,60 C40,55 60,65 80,60" stroke-width="1" class="liquid"/>
+            </svg>
+            <h3>JavaScript</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="portfolio" class="portfolio">
+      <h2>Portfólio</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item" style="opacity: 0; transform: translateY(20px); transition: all 0.6s ease;">
+          <div class="portfolio-content">
+            <h3>Coffee Shop Website</h3>
+            <p>Website responsivo para uma cafeteria artesanal, com sistema de pedidos online e blog integrado.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">HTML5</span>
+              <span class="tech-tag">CSS3</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">React</span>
+            </div>
+            <a href="https://example.com/project1" class="portfolio-link">Ver projeto</a>
+          </div>
+        </div>
+        <div class="portfolio-item" style="opacity: 0; transform: translateY(20px); transition: all 0.6s ease;">
+          <div class="portfolio-content">
+            <h3>Barista App</h3>
+            <p>Aplicativo para baristas aprenderem e compartilharem receitas de café especial.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">React Native</span>
+              <span class="tech-tag">Firebase</span>
+              <span class="tech-tag">Node.js</span>
+            </div>
+            <a href="https://example.com/project2" class="portfolio-link">Ver projeto</a>
+          </div>
+        </div>
+        <div class="portfolio-item" style="opacity: 0; transform: translateY(20px); transition: all 0.6s ease;">
+          <div class="portfolio-content">
+            <h3>Coffee Blog</h3>
+            <p>Blog sobre café com sistema de CMS personalizado e newsletter integrada.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">Tailwind</span>
+              <span class="tech-tag">MongoDB</span>
+            </div>
+            <a href="https://example.com/project3" class="portfolio-link">Ver projeto</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="blog" class="blog">
+      <h2>Blog</h2>
+      <div class="blog-grid">
+        <article class="blog-post">
+          <div class="post-content">
+            <span class="post-date">12 Maio, 2023</span>
+            <h3>A Arte do Café e do Código Limpo</h3>
+            <p>Como princípios de preparo do café podem nos ensinar sobre clean code...</p>
+            <a href="./blog/AArte.html" class="post-link">Ler mais</a>
+          </div>
+        </article>
+        <article class="blog-post">
+          <div class="post-content">
+            <span class="post-date">5 Maio, 2023</span>
+            <h3>Frontend Performance: Destilando o Essencial</h3>
+            <p>Técnicas avançadas para otimização de performance em aplicações web...</p>
+            <a href="./blog/frontend-performance-destilando-o-essencial.html" class="post-link">Ler mais</a>
+          </div>
+        </article>
+        <article class="blog-post">
+          <div class="post-content">
+            <span class="post-date">28 Abril, 2023</span>
+            <h3>UX Design: A Receita Perfeita</h3>
+            <p>Como criar interfaces que encantam usuários como um café bem preparado...</p>
+            <a href="./blog/ux-design-a-receita-perfeita.html" class="post-link">Ler mais</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="contact-container">
+        <h2>Vamos Tomar um Café?</h2>
+        <p>Estou sempre aberto para discutir novos projetos, ideias criativas ou oportunidades para fazer parte de suas visões.</p>
+        <div class="contact-content">
+          <div class="contact-info">
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              <a href="mailto:contact@example.com">contact@example.com</a>
+            </div>
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24">
+                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16h-2v-6h2v6zm-1-6.891c-.607 0-1.1-.496-1.1-1.109 0-.612.492-1.109 1.1-1.109s1.1.497 1.1 1.109c0 .613-.493 1.109-1.1 1.109zm8 6.891h-1.998v-2.861c0-1.881-2.002-1.722-2.002 0v2.861h-2v-6h2v1.093c.872-1.616 4-1.736 4 1.548v3.359z"/>
+              </svg>
+              <a href="https://linkedin.com/in/example" target="_blank">LinkedIn</a>
+            </div>
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <a href="https://github.com/example" target="_blank">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+    const text = "e o foco do melhor código";
+    const typewriter = document.getElementById('typewriter');
+    let i = 0;
+    
+    function type() {
+      if (i < text.length) {
+        typewriter.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, Math.random() * 150 + 50);
+      }
+    }
+    
+    setTimeout(type, 800);
+    
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+    
+    const aboutContainer = document.querySelector('.about-container');
+    const observerOptions = {
+      threshold: 0.3
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    observer.observe(aboutContainer);
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const portfolioObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+    
+    portfolioItems.forEach(item => {
+      portfolioObserver.observe(item);
+    });
+    
+    const blogPosts = document.querySelectorAll('.blog-post');
+    const blogObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+    
+    blogPosts.forEach(post => {
+      blogObserver.observe(post);
+    });
+    
+    const skillCups = document.querySelectorAll('.skill-cup');
+    const skillCupObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.2
+    });
+    
+    skillCups.forEach(cup => {
+      skillCupObserver.observe(cup);
+    });
+    </script>
+    
+    </body></html>
